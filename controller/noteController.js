@@ -1,3 +1,6 @@
+const asyncHandler = require('../middleware/asyncHandler');
+const Notes = require('../models/notes');
+
 const noteConroller = {
   getAllNotes: (req, res) => {
     return res.send('get all notes');

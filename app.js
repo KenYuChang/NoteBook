@@ -3,6 +3,7 @@ const auth = require('./routes/auth');
 const note = require('./routes/note');
 const methodOverride = require('method-override');
 const app = express();
+const { notFound, errorHandler } = require('./middleware//errorMiddleware');
 const PORT = 3000;
 
 app.use(express.json());
@@ -10,6 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use('/api/auth', auth);
 app.use('/api/notes', note);
+app.use(notFound);
+app.use(errorHandler);
+
 app.get('/', (req, res) => {
   res.send('hello world');
 });

@@ -1,13 +1,16 @@
+const asyncHanlder = require('../middleware/asyncHandler');
+const User = require('../models/user');
+
 const userController = {
-  signup: (req, res) => {
+  signup: asyncHanlder(async (req, res) => {
     return res.send('signup');
-  },
-  signin: (req, res) => {
+  }),
+  signin: asyncHanlder(async (req, res) => {
     return res.send('signin');
-  },
-  logout: (req, res) => {
+  }),
+  logout: asyncHanlder(async (req, res) => {
     return res.send('logout');
-  },
+  }),
 };
 
 module.exports = userController;
