@@ -1,5 +1,6 @@
 const asyncHanlder = require('../middleware/asyncHandler');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
 const userController = {
@@ -34,11 +35,23 @@ const userController = {
       res.status(401);
       throw new Error('Email or password is incorrect');
     }
-    res.status(200).json({
+    // generate jwt
+    const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: '30d',
+    });
+
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      sameSite: 'strict',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+    const loginUser = {
       id: user.id,
       name: user.name,
       email: user.email,
-    });
+    };
+    res.status(200).json({ message: 'Success login', user: loginUser });
   }),
   logout: asyncHanlder(async (req, res) => {
     return res.send('logout');

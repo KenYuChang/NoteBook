@@ -1,5 +1,7 @@
 const express = require('express');
 const auth = require('./routes/auth');
+const dotenv = require('dotenv');
+dotenv.config();
 const note = require('./routes/note');
 const methodOverride = require('method-override');
 const app = express();
